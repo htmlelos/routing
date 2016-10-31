@@ -15,6 +15,7 @@
 <!-- Componentes propios -->
 <link rel="import" href="./main-page.html">
 <link rel="import" href="./config-page.html">
+<link rel="import" href="./sales-page.html">
 <dom-module id="routing-app">
   <template>
     <style is="custom-style">
@@ -28,7 +29,7 @@
     </style>
     <!-- Enrutador -->
     <app-location route="{{route}}" useHashAsPath></app-location>
-    <app-route route="{{route}}" pattern="/:page" tail={{tailRoute}} active={{mainActive}}>
+    <app-route route="{{route}}" pattern="/:page" tail="{{tailRoute}}" active="{{mainActive}}">
 
     </app-route>
     <!-- Aplicacion -->
@@ -66,12 +67,7 @@
         <iron-pages attr-for-selected="name" selected="{{page}}" fallback-selection="3">
           <main-page name="home" route="{{tailRoute}}"></main-page>
           <config-page name="configuration" route="{{tailRoute}}"></config-page>
-          <div name="sales">
-            <paper-card heading="Ventas">
-              <paper-card>Busqueda</paper-card>
-              <paper-card>Listado</paper-card>
-            </paper-card>
-          </div>
+          <sales-page name="sales" route="{{tailRoute}}"></sales-page>
           <div name="purchases">Compras</div>
           <div name="cash">Caja</div>
           <div name="inventory">Inventario</div>

@@ -1,13 +1,18 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="config-page">
   <template>
     <style>
-      .container {
+      .container-vertical {
         @apply(--layout-vertical);
         @apply(--layout-center-justified)
+      }
+      .container-horizontal {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
       }
       iron-selector a {
         text-decoration: none;
@@ -19,24 +24,60 @@
       paper-item {
         font-size: 2em;
       }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+      .flex3child {
+        @apply(--layout-flex-3);
+      }
+      .flex4child {
+        @apply(--layout-flex-4);
+      }
+
+      span {
+        font-size:0.7em;
+      }
     </style>
-    <div class="container">
+    <div class="container-vertical">
+      <app-route route="{{route}}" pattern="/:page" tail="{{tailRoute}}">
+
+      </app-route>
       <paper-card heading="Configuracion">
         <iron-selector attr-for-selected="name" selected="{{page}}" fallback="0">
-            <a href="#/users">
-              <paper-card name="users" heading="Usuarios">
+          <a href="#/users" name="users">
+              <paper-card  heading="Usuarios">
             </paper-card>
-            </a>
-            <a href="#/roles">
-              <paper-card name="roles" heading="Roles">
+          </a>
+          <a href="#/roles"name="roles">
+              <paper-card  heading="Roles">
               </paper-card>
             </a>
         </iron-selector>
       </paper-card>
+      <iron-ajax auto
+      url="https://jsonplaceholder.typicode.com/users"
+      handle-as="json"
+      last-response="{{response}}">
+    </iron-ajax>
+    <paper-card name="users" heading="Usuarios">
+
       <iron-pages attr-for-selected="name" selected="{{page}}" fallback="0">
-        <div name="users">Usuarios</div>
+
+        <paper-card name="users">
+          <template is="dom-repeat" items="[[response]]">
+            <paper-item class="container-horizontal">
+              <span class="flexchild">{{item.id}}</span>
+              <span class="flex4child">{{item.name}}</span>
+              <span class="flex3child">{{item.username}}</span>
+              <span class="flex4child">{{item.email}}</span>
+            </paper-item>
+          </template>
+        </paper-card>
+        <!-- </div> -->
         <div name="roles">Roles</div>
       </iron-pages>
+    </paper-card>
 
     </div>
   </template>
