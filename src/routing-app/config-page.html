@@ -1,0 +1,78 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="config-page">
+  <template>
+    <style>
+      .container {
+        @apply(--layout-vertical);
+        @apply(--layout-center-justified)
+      }
+      iron-selector a {
+        text-decoration: none;
+        color: black;
+      }
+      paper-card {
+        margin: 0.5em 1em;
+      }
+      paper-item {
+        font-size: 2em;
+      }
+    </style>
+    <div class="container">
+      <paper-card heading="Configuracion">
+        <iron-selector attr-for-selected="name" selected="{{page}}" fallback="0">
+            <a href="#/users">
+              <paper-card name="users" heading="Usuarios">
+            </paper-card>
+            </a>
+            <a href="#/roles">
+              <paper-card name="roles" heading="Roles">
+              </paper-card>
+            </a>
+        </iron-selector>
+      </paper-card>
+      <iron-pages attr-for-selected="name" selected="{{page}}" fallback="0">
+        <div name="users">Usuarios</div>
+        <div name="roles">Roles</div>
+      </iron-pages>
+
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'config-page',
+
+      properties: {
+        page: {
+          type: String,
+          value: '0',
+          observer: '_pageChanged'
+        },
+        route: {
+          value: function () {
+            return {path: '/', prefix: '', __queryParams: {}}
+          }
+        },
+        pattern: {
+          value: function () {
+            let pathname = window.location.pathname
+            return pathname.substring(0, pathname.lastIndexOf('/'))
+          }
+        }
+      },
+      // _ready: function () {
+      //   this.page = 'configuration'
+      // },
+      _pageChanged: function () {
+        console.log('--PAGE--',this.page);
+        if (this.page) {
+          if (this.page=='configuration') {}
+        }
+      }
+    });
+  </script>
+</dom-module>

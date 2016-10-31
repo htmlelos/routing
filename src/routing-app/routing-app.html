@@ -12,11 +12,13 @@
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
-
+<!-- Componentes propios -->
+<link rel="import" href="./main-page.html">
+<link rel="import" href="./config-page.html">
 <dom-module id="routing-app">
   <template>
     <style is="custom-style">
-        paper-item>a {
+        iron-selector a {
           text-decoration: none;
           color: black;
         }
@@ -26,12 +28,7 @@
     </style>
     <!-- Enrutador -->
     <app-location route="{{route}}" useHashAsPath></app-location>
-    <app-route route="{{route}}" pattern="/:page" active={{mainActive}}>
-    <!-- <app-route route="{{route}}" pattern="/configuration" active={{configActive}}>
-    <app-route route="{{route}}" pattern="/sales" active={{salesActive}}>
-    <app-route route="{{route}}" pattern="/purchases" active={{purchasesActive}}>
-    <app-route route="{{route}}" pattern="/cash" active={{cajaActive}}>
-    <app-route route="{{route}}" pattern="/inventory" active={{inventoryActive}}> -->
+    <app-route route="{{route}}" pattern="/:page" tail={{tailRoute}} active={{mainActive}}>
 
     </app-route>
     <!-- Aplicacion -->
@@ -61,25 +58,14 @@
         </paper-menu>
       </paper-header-panel>
       <!-- Panel principal -->
-      <paper-header-panel main="">
+      <paper-header-panel main="" class="flex">
         <paper-toolbar>
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
           <div class="title">Sistema de Gestión de Inventario</div>
         </paper-toolbar>
         <iron-pages attr-for-selected="name" selected="{{page}}" fallback-selection="3">
-          <div name="home" class="flex-horizontal">
-            <paper-card heading="Dashboard" class="flex flex-center-align">
-              <paper-card heading="Ultima Venta"></paper-card>
-              <paper-card heading="Caja Diaria"></paper-card>
-              <paper-card heading="Evolucion Ingresos/Egresos"></paper-card>
-            </paper-card>
-          </div>
-          <div name="configuration">
-            <paper-card heading="Configuracion">
-              <paper-card heading="Usuarios"></paper-card>
-              <paper-card heading="Roles"></paper-card>
-            </paper-card>
-          </div>
+          <main-page name="home" route="{{tailRoute}}"></main-page>
+          <config-page name="configuration" route="{{tailRoute}}"></config-page>
           <div name="sales">
             <paper-card heading="Ventas">
               <paper-card>Busqueda</paper-card>
@@ -113,16 +99,17 @@
         pattern: {
           value: function() {
             let pathname = window.location.pathname
-            console.log('--PATHNAME--', pathname);
+            // console.log('--PATHNAME--', pathname);
             return pathname.substring(0, pathname.lastIndexOf('/'))
           }
         }
       },
       ready: function () {
         // console.log('--PAGINA LISTA--', this.page, '-RUTA-',this.route);
+        this.page = 'home'
       },
       _pageChanged: function () {
-        console.log('--PAGINA--', this.page, '-RUTA-',this.route, '-PATRON-', this.pattern);
+        // console.log('--PAGINA--', this.page, '-RUTA-',this.route, '-PATRON-', this.pattern);
         if (this.page) {
           if (this.page=='home') {}
         }
