@@ -24,6 +24,11 @@
           text-decoration: none;
           color: black;
         }
+        .container {
+          @apply(--layout-center-justified);
+          /*margin: 1em 1em;*/
+          /*background: red;*/
+        }
     </style>
     <!-- Enrutador -->
     <app-location route="{{route}}" useHashAsPath></app-location>
@@ -62,14 +67,16 @@
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
           <div class="title">Sistema de Gestión de Inventario</div>
         </paper-toolbar>
-        <iron-pages attr-for-selected="name" selected="{{page}}" fallback-selection="3">
-          <main-page name="home" route="{{tailRoute}}"></main-page>
-          <config-page name="configuration" route="{{tailRoute}}"></config-page>
-          <sales-page name="sales" route="{{tailRoute}}"></sales-page>
-          <div name="purchases">Compras</div>
-          <div name="cash">Caja</div>
-          <div name="inventory">Inventario</div>
-        </iron-pages>
+        <div class="container">
+          <iron-pages attr-for-selected="name" selected="{{page}}" fallback-selection="3">
+            <main-page name="home" route="{{tailRoute}}"></main-page>
+            <config-page name="configuration" route="{{tailRoute}}"></config-page>
+            <sales-page name="sales" route="{{tailRoute}}"></sales-page>
+            <div name="purchases">Compras</div>
+            <div name="cash">Caja</div>
+            <div name="inventory">Inventario</div>
+          </iron-pages>
+        </div>
       </paper-header-panel>
 
     </paper-drawer-panel>
